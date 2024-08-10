@@ -1,8 +1,11 @@
 import React, { useContext } from "react";
 import styles from "../../selectednotes.module.css";
 import AppContext from "../../../../context/AppContext";
+import { MdDelete } from "react-icons/md";
+
 function NoteHeading({ noteHeading }) {
-  const { isMobile, setHide, setCurrentGroup } = useContext(AppContext);
+  const { isMobile, setHide, setCurrentGroup, noteHeadings, setNoteHeadings } =
+    useContext(AppContext);
   const { letters } = noteHeading;
 
   const handleClick = () => {
@@ -10,6 +13,11 @@ function NoteHeading({ noteHeading }) {
     if (isMobile) {
       setHide(true);
     }
+  };
+
+  const handleDelete = (id) => {
+    const filteredData = noteHeadings.filter((item) => item.id !== id);
+    setNoteHeadings(filteredData);
   };
 
   return (
@@ -25,6 +33,12 @@ function NoteHeading({ noteHeading }) {
         {noteHeading.name && letters}
       </div>
       <div>{noteHeading.name}</div>
+      <div
+        onClick={() => handleDelete(noteHeading.id)}
+        style={{ marginLeft: "auto" }}
+      >
+        <MdDelete />
+      </div>
     </div>
   );
 }

@@ -41,14 +41,13 @@ function CreateNote() {
     "#6691FF",
   ];
 
-  
-
   const addNote = () => {
     const letters = randomLetters(grpName);
     if (grpName && selectedColor) {
       setNoteHeadings((prevNoteHeadings) => [
         ...prevNoteHeadings,
         {
+          id: Date.now(),
           name: grpName,
           color: selectedColor,
           letters: letters,

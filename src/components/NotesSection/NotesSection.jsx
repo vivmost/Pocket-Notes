@@ -4,6 +4,7 @@ import AppContext from "../../context/AppContext";
 import { IoMdArrowRoundBack } from "react-icons/io";
 import { BiSolidSend } from "react-icons/bi";
 import { nanoid } from "nanoid";
+import { MdDelete } from "react-icons/md";
 import HomePage from "../HomePage/HomePage";
 
 function NoteSection() {
@@ -32,6 +33,7 @@ function NoteSection() {
       year: "numeric",
     });
     const newNote = {
+      id: Date.now(),
       time: currentTime,
       date: currentShowDate,
       note: noteText,
@@ -58,7 +60,7 @@ function NoteSection() {
   useEffect(() => {
     function handleKeyPress(e) {
       if (e.key === "Enter") {
-        if(noteText.trim()!==""){
+        if (noteText.trim() !== "") {
           addNote();
         }
       }
@@ -71,6 +73,11 @@ function NoteSection() {
   if (!currentGroup && !isMobile) {
     return <HomePage />;
   }
+
+  const handleDelete = (id) => {
+    const filteredData = notes.filter((item) => item.id !== id);
+    setNotes(filteredData);
+  };
 
   return (
     <div
@@ -102,6 +109,12 @@ function NoteSection() {
                     <div className={styles.date}>{note.date}</div>
                   </div>
                   <div className={styles.noteContent}>{note.note}</div>
+                  <div
+                    onClick={() => handleDelete(note.id)}
+                    style={{ marginLeft: "auto" }}
+                  >
+                    <MdDelete />
+                  </div>
                 </div>
               );
             })}
@@ -115,7 +128,7 @@ function NoteSection() {
           value={noteText}
           onChange={(e) => {
             // if (e.target.value.trim() !== "") {
-              setNoteText(e.target.value);
+            setNoteText(e.target.value);
             // }
           }}
         ></textarea>
